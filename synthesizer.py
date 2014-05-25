@@ -42,19 +42,9 @@ def freqround(number): # this will round us to the .5 MHz
 def yig_set_freq(frequency, resolution):
         frequency = freqround(frequency)
         channel = frequency/resolution
-        string[0] = 'C'
-	small_wait = 25e-6
-	long_wait = 150e-3
-	GPIO.ouput(yig_e, 1) 
-	time.sleep(small_wait)
-	GPIO.ouput(yig_e, 0) #select low
-	time.sleep(small_wait)
-	for j in range(0,strlen)
-		for whichbit in range(7,0,-1)
-			GPIO.ouput(yig_d,((1<<whichbit) & string[j])>>whichbit)
-			GPIO.ouput(yig_c, 1)
-			time.sleep(small_wait)
-			GPIO.ouput(yig_c, 0)
-			time.sleep(small_wait)
-	GPIO.ouput(yig_e, 1) 
-	time.sleep(long_wait)
+	string[0] = 'C';
+	for j in range(0,3)
+		string[4-j] = 0xFF & (channel>>(8*j));
+	
+	print "setting frequency ", ," at resolution ", ," with channel ",," yields string ", string
+	write_yig(string,5);
