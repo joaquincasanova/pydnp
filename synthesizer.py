@@ -1,4 +1,5 @@
 import math
+import binascii
 import sys
 import numpy as np
 import time
@@ -31,8 +32,11 @@ def write_yig(string, strlen):
         time.sleep(small_wait)
         
         for j in range(0,strlen):
-	        for whichbit in range(7,-1,-1):
-                	GPIO.output(yig_d,((1<<whichbit) & int(string[j]))>>whichbit)
+		x = bin(int(binascii.hexlify(string[j]),16))
+	        for whichbit in range(2,10):
+                	GPIO.output(yig_d,int(x[whichbit]))
+			print j, ' ', whichbit-2, ' ', int(x[whichbit])
+			#((1<<whichbit) & int(string[j]))>>whichbit)
                         GPIO.output(yig_c, 1)
                         time.sleep(small_wait)
                         GPIO.output(yig_c, 0)
@@ -65,10 +69,13 @@ def freqround(number): # this will round us to the .5 MHz
 	
 def yig_set_freq(frequency, resolution):
         frequency = freqround(frequency)
-        channel = int(frequency/resolution)
-	string = 'C'
-	for j in range(3,-1,-1):
-		string += str(0xFF & (channel>>(8*j)))
+        #channel = int(frequency/resolution)
+	x = str(frequency/1e6)
+	while len(x)<7:
+		x += '0'
+	string = 'F'+ x[0:7]
+	#for j in range(0,7):
+	#	string += str(0xFF & (channel>>(8*j)))
 	
-	print "setting frequency ", frequency," at resolution ", resolution," with channel ", channel," yields string ", string
-	write_yig(string,5)
+	print "setting frequency ", frequency," yields string ", string#," at resolution ", resolution," with channel ", channel
+	write_yig(string,8)
