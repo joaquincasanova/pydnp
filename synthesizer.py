@@ -5,6 +5,7 @@ import time
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
 global yig_l
 yig_l=7
