@@ -33,10 +33,11 @@ def write_yig(string, strlen):
         
         for j in range(0,strlen):
 		x = bin(int(binascii.hexlify(string[j]),16))
-	        for whichbit in range(2,10):
+		x = x[2:10]
+		while len(x)<8:
+			x = '0' + x
+	        for whichbit in range(0,8):
                 	GPIO.output(yig_d,int(x[whichbit]))
-			print j, ' ', whichbit-2, ' ', int(x[whichbit])
-			#((1<<whichbit) & int(string[j]))>>whichbit)
                         GPIO.output(yig_c, 1)
                         time.sleep(small_wait)
                         GPIO.output(yig_c, 0)
