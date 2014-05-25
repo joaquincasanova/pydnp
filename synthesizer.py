@@ -31,8 +31,8 @@ def write_yig(string, strlen):
         time.sleep(small_wait)
         
         for j in range(0,strlen):
-	        for whichbit in range(7,0,-1):
-                	GPIO.output(yig_d,((1<<whichbit) & string[j])>>whichbit)
+	        for whichbit in range(7,-1,-1):
+                	GPIO.output(yig_d,((1<<whichbit) & int(string[j]))>>whichbit)
                         GPIO.output(yig_c, 1)
                         time.sleep(small_wait)
                         GPIO.output(yig_c, 0)
@@ -67,9 +67,7 @@ def yig_set_freq(frequency, resolution):
         frequency = freqround(frequency)
         channel = int(frequency/resolution)
 	string = 'C'
-#	for j in range(0,3):
-#		string[4-j] = 0xFF & (channel>>(8*j));
-	for j in range(3,0,-1):
+	for j in range(3,-1,-1):
 		string += str(0xFF & (channel>>(8*j)))
 	
 	print "setting frequency ", frequency," at resolution ", resolution," with channel ", channel," yields string ", string
