@@ -42,7 +42,7 @@ freq = sys.argv[1] #MHz
 attn = sys.argv[2]
 resolution = 0.5  
 
-yig_set_freq(freq, resolution)
+synthesizer.yig_set_freq(freq, resolution)
 print " I just set the yig."
-digatt_set(attn)
+attenuator.digatt_set(attn)
 print " I just set the digatt."

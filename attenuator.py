@@ -34,7 +34,7 @@ def digatt_write(data):
 	#turn on the clock
 	GPIO.output(digatt_c, 1)	
 	time.sleep(small_wait)
-	for j in range(0,5) #there are always 6
+	for j in range(0,5): #there are always 6
 		#turn off the clock
 		GPIO.output(digatt_c, 0)		
 		time.sleep(small_wait)
@@ -71,14 +71,14 @@ def attnround(number): # this will round us to the .5 MHz
 	setting[3]=1
 	setting[4]=1
 	setting[5]=1
-	for j in range(5, 0, -1)
-		if number>=thisatten[j]
-			setting[j], 0)
+	for j in range(5, 0, -1):
+		if number>=thisatten[j]:
+			setting[j]=0
 			number -= thisatten[j]
-			print "Setting the ", thisatten[j], " attenuator to ",setting[j]) #low means that attenuator is set
-    return setting	
+			print "Setting the ", thisatten[j], " attenuator to ",setting[j] #low means that attenuator is set
+	return setting	
 
-def digatt_set(number)
+def digatt_set(number):
 	setting = attnround(number)
 	digatt_write(setting)
 
