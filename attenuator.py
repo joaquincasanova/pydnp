@@ -1,3 +1,26 @@
+import math
+import sys
+import numpy as np
+import time
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+
+global digatt_l
+digatt_l=12
+global digatt_c
+digatt_c=16
+global digatt_r
+digatt_r=18
+global digatt_s
+digatt_s=22
+
+# digital attenuator pins
+GPIO.setup(digatt_l, GPIO.OUT)
+GPIO.setup(digatt_c, GPIO.OUT)
+GPIO.setup(digatt_r, GPIO.OUT)
+GPIO.setup(digatt_s, GPIO.OUT)
+
 def digatt_write(data):
 	small_wait=2e-8#1000e-6
 	long_wait=2e-8#1000e-6
