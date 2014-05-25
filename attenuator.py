@@ -1,5 +1,4 @@
-
-def digatt_write(data)
+def digatt_write(data):
 	small_wait=2e-8#1000e-6
 	long_wait=2e-8#1000e-6
 	# set everything on the digatt to zero, except reset and serial
@@ -30,12 +29,12 @@ def digatt_write(data)
 	GPIO.output(digatt_c, 1)	
 	time.sleep(small_wait)
 	#turn off the clock
-    GPIO.output(digatt_c, 0)    
-    time.sleep(small_wait)
-    #turn on the clock
+	GPIO.output(digatt_c, 0)    
+	time.sleep(small_wait)
+	#turn on the clock
 	GPIO.output(digatt_c, 1)	
 	time.sleep(small_wait)
-	for(j=0j<6j++) #there are always 6
+	for j in range(0,5) #there are always 6
 		#turn off the clock
 		GPIO.output(digatt_c, 0)		
 		time.sleep(small_wait)
@@ -82,4 +81,4 @@ def attnround(number): # this will round us to the .5 MHz
 def digatt_set(number)
 	setting = attnround(number)
 	digatt_write(setting)
-}
+
