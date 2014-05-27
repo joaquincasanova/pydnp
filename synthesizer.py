@@ -36,13 +36,13 @@ def write_yig(string, strlen):
 		x = x[2:10]
 		while len(x)<8:
 			x = '0' + x
-			for whichbit in range(0,8):
-				GPIO.output(yig_d,int(x[whichbit]))
-				GPIO.output(yig_c, 1)
-				time.sleep(small_wait)
-				GPIO.output(yig_c, 0)
-				time.sleep(small_wait)
-
+		for whichbit in range(0,8):
+			GPIO.output(yig_d,int(x[whichbit]))
+			GPIO.output(yig_c, 1)
+			time.sleep(small_wait)
+			GPIO.output(yig_c, 0)
+			time.sleep(small_wait)
+				
         GPIO.output(yig_e, 1) 
         time.sleep(long_wait)
 	
