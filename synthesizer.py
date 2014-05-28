@@ -74,10 +74,10 @@ def yig_set_freq(frequency, resolution):
 	x = str(frequency/1e6)
 	while len(x)<7:
 		x += '0'
-	string = 'F'+ x[0:8]
+	string = 'F'+ x[0:7]
 	#for j in range(0,7):
 	#	string += str(0xFF & (channel>>(8*j)))
 	
 	print "setting frequency ", frequency," yields string ", string#," at resolution ", resolution," with channel ", channel
-	write_yig(string,9)
+	write_yig(string,8)
 
