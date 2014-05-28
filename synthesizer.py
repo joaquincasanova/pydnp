@@ -24,10 +24,9 @@ GPIO.setup(yig_e, GPIO.OUT)
 GPIO.setup(yig_c, GPIO.OUT)
 
 def write_yig(string, strlen):
-	small_wait = 25e-6
-	long_wait = 150e-3
-        GPIO.output(yig_e, 1) 
-        time.sleep(small_wait)
+	small_wait = 50e-6
+	long_wait = 175e-3
+
         GPIO.output(yig_e, 0) #select low
         time.sleep(small_wait)
         
@@ -43,9 +42,8 @@ def write_yig(string, strlen):
 			GPIO.output(yig_c, 0)
 			time.sleep(small_wait)
 			
-	GPIO.output(yig_c, 1)
-	time.sleep(small_wait)
-	GPIO.output(yig_c, 0)
+        GPIO.output(yig_e, 1) 
+        time.sleep(small_wait)
 	time.sleep(long_wait)
 	
 def yig_check_lock():
@@ -76,10 +74,10 @@ def yig_set_freq(frequency, resolution):
 	x = str(frequency/1e6)
 	while len(x)<7:
 		x += '0'
-	string = 'F'+ x[0:7]
+	string = 'F'+ x[0:8]
 	#for j in range(0,7):
 	#	string += str(0xFF & (channel>>(8*j)))
 	
 	print "setting frequency ", frequency," yields string ", string#," at resolution ", resolution," with channel ", channel
-	write_yig(string,8)
+	write_yig(string,9)
 
