@@ -18,11 +18,11 @@ global yig_c
 yig_c=11
 
 # yig synthesizer pins
-GPIO.setup(yig_l, GPIO.IN)
-GPIO.setup(yig_d, GPIO.OUT)
-GPIO.setup(yig_e, GPIO.OUT)
-GPIO.setup(yig_c, GPIO.OUT)
-	
+GPIO.setup(yig_l, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(yig_d, GPIO.OUT,initial=0)
+GPIO.setup(yig_e, GPIO.OUT,initial=1)
+GPIO.setup(yig_c, GPIO.OUT,initial=0)
+
 def yig_check_lock():
 	time.sleep(500e-3)
         retval = GPIO.input(yig_l)
@@ -46,6 +46,9 @@ def freqround(number): # this will round us to the .5 MHz
         return number
 	
 def yig_set_freq(frequency, resolution):
+        GPIO.output(yig_c, 0) #clock low
+        GPIO.output(yig_d, 0) #clock low
+
         frequency = freqround(frequency)
 	y = str(frequency/1e6)
 	while len(y)<7:
@@ -57,6 +60,8 @@ def yig_set_freq(frequency, resolution):
 	long_wait = 175e-3
 
         GPIO.output(yig_e, 0) #select low
+        GPIO.output(yig_c, 0) #clock low
+        GPIO.output(yig_d, 0) #clock low
         time.sleep(small_wait)
         
         for j in range(0,len(string)):
@@ -65,13 +70,19 @@ def yig_set_freq(frequency, resolution):
 		while len(x)<8:
 			x = '0' + x
 		for whichbit in range(0,8):
+			if j==0 and whichbit==0:
+				GPIO.output(yig_c, 0)
+				time.sleep(small_wait)
 			GPIO.output(yig_d,int(x[whichbit]))
 			GPIO.output(yig_c, 0)
 			time.sleep(small_wait)
 			GPIO.output(yig_c, 1)
 			time.sleep(small_wait)
 			
-        GPIO.output(yig_e, 1)
+        GPIO.output(yig_c, 0)
+	GPIO.output(yig_d, 0)
+	time.sleep(small_wait)
+	GPIO.output(yig_e, 1)
 	time.sleep(long_wait)
 	
 def yig_set_chan(frequency, resolution):
@@ -86,14 +97,22 @@ def yig_set_chan(frequency, resolution):
 	long_wait = 175e-3
 
         GPIO.output(yig_e, 0) #select low
+        GPIO.output(yig_c, 0) #clock low
+        GPIO.output(yig_d, 0) #clock low
         time.sleep(small_wait)
         
         for j in range(0,len(string)):
+		if j==0: 
+			GPIO.output(yig_c, 0)
+			time.sleep(small_wait)
 		GPIO.output(yig_d,int(string[j]))
 		GPIO.output(yig_c, 0)
 		time.sleep(small_wait)
 		GPIO.output(yig_c, 1)
 		time.sleep(small_wait)
 			
-        GPIO.output(yig_e, 1)
+        GPIO.output(yig_c, 0)
+	GPIO.output(yig_d, 0)
+	time.sleep(small_wait)
+	GPIO.output(yig_e, 1)
 	time.sleep(long_wait)
