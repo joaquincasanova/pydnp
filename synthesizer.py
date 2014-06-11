@@ -44,20 +44,16 @@ def freqround(number): # this will round us to the .5 MHz
         number *= 1e6
         print "calculated remainder is ", remainder, "new frequency is: ", number
         return number
-	
-def yig_set_freq(frequency, resolution):
+
+def yig_set_lock(lock):
         GPIO.output(yig_c, 0) #clock low
         GPIO.output(yig_d, 0) #clock low
-
-        frequency = freqround(frequency)
-	y = str(frequency/1e6)
-	while len(y)<7:
-		y += '0'
-	string = 'F'+ y[0:7]
 	
-	print "setting frequency ", frequency," yields string ", string
-	small_wait = 50e-6
-	long_wait = 175e-3
+	string = 'L'+ str(lock)
+	
+	print "setting lock ", string
+	small_wait = 25e-6
+	long_wait = 20e-3+10e-3
 
         GPIO.output(yig_e, 0) #select low
         GPIO.output(yig_c, 0) #clock low
@@ -70,10 +66,45 @@ def yig_set_freq(frequency, resolution):
 		while len(x)<8:
 			x = '0' + x
 		for whichbit in range(0,8):
-			if j==0 and whichbit==0:
-				GPIO.output(yig_c, 0)
-				time.sleep(small_wait)
 			GPIO.output(yig_d,int(x[whichbit]))
+			GPIO.output(yig_c, 0)
+			time.sleep(small_wait)
+			GPIO.output(yig_c, 1)
+			time.sleep(small_wait)
+			
+        GPIO.output(yig_c, 0)
+	GPIO.output(yig_d, 0)
+	time.sleep(small_wait)
+	GPIO.output(yig_e, 1)
+	time.sleep(long_wait)
+	
+def yig_set_freq(frequency, resolution):
+        GPIO.output(yig_c, 0) #clock low
+        GPIO.output(yig_d, 0) #clock low
+
+        #frequency = freqround(frequency)
+	y = str(frequency/1e6)
+	while len(y)<8:
+		y += '0'
+	string = 'F'+ y[0:8]
+	
+	print "setting frequency ", frequency," yields string ", string
+	small_wait = 1e-3#25e-6
+	long_wait = 120e-3+frequency*1e-9*10e-3+10e-3
+
+        GPIO.output(yig_e, 0) #select low
+        GPIO.output(yig_c, 0) #clock low
+        GPIO.output(yig_d, 0) #clock low
+        time.sleep(small_wait)
+        
+        for j in range(0,len(string)):
+		x = bin(int(binascii.hexlify(string[j]),16))
+		x = x[2:10]
+		while len(x)<8:
+			x = '0' + x
+		for whichbit in range(0,8):
+			GPIO.output(yig_d,int(x[whichbit]))
+			#print j  ," " , whichbit, " " , x[whichbit]
 			GPIO.output(yig_c, 0)
 			time.sleep(small_wait)
 			GPIO.output(yig_c, 1)
@@ -93,8 +124,8 @@ def yig_set_chan(frequency, resolution):
 	string = bin(int(binascii.hexlify('C'),16))+x
 	string = '0'+string[2:len(string)]
 	print "setting frequency ", frequency," yields string ", string," at resolution ", resolution," with channel ", channel
-	small_wait = 50e-6
-	long_wait = 175e-3
+	small_wait = 25e-6
+	long_wait = 100e-3+frequency*1e-9*10e-3+10e-3
 
         GPIO.output(yig_e, 0) #select low
         GPIO.output(yig_c, 0) #clock low
@@ -102,9 +133,6 @@ def yig_set_chan(frequency, resolution):
         time.sleep(small_wait)
         
         for j in range(0,len(string)):
-		if j==0: 
-			GPIO.output(yig_c, 0)
-			time.sleep(small_wait)
 		GPIO.output(yig_d,int(string[j]))
 		GPIO.output(yig_c, 0)
 		time.sleep(small_wait)

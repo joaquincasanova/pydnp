@@ -23,8 +23,7 @@ GPIO.setup(digatt_r, GPIO.OUT)
 GPIO.setup(digatt_s, GPIO.OUT)
 
 def digatt_write(data):
-	small_wait=1000e-6
-	long_wait=1000e-6
+	small_wait=25e-6
 	#set everything on the digatt to zero, except reset and serial
 	GPIO.output(digatt_l, 0)
 	GPIO.output(digatt_c, 0)	
@@ -45,17 +44,17 @@ def digatt_write(data):
 	#turn off the clock
 	#turn on reset
 	GPIO.output(digatt_r, 1)
-	#GPIO.output(digatt_c, 0)
-	#time.sleep(small_wait)
+	GPIO.output(digatt_c, 0)
+	time.sleep(small_wait)
 	#turn on the clock
-	#GPIO.output(digatt_c, 1)	
-	#time.sleep(small_wait)
+	GPIO.output(digatt_c, 1)	
+	time.sleep(small_wait)
 	#turn off the clock
-	#GPIO.output(digatt_c, 0)    
-	#time.sleep(small_wait)
+	GPIO.output(digatt_c, 0)    
+	time.sleep(small_wait)
 	#turn on the clock
-	#GPIO.output(digatt_c, 1)	
-	#time.sleep(small_wait)
+	GPIO.output(digatt_c, 1)	
+	time.sleep(small_wait)
 	for j in range(0,6): #there are always 6
 		#turn off the clock
 		#set the data bit
