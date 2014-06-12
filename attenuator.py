@@ -59,7 +59,7 @@ def digatt_write(data):
 	for j in range(0,6): #there are always 6
 		#turn off the clock
 		#set the data bit
-		#GPIO.output(digatt_s, data[j])
+		GPIO.output(digatt_s, data[j])
 		GPIO.output(digatt_c, 0)		
 		time.sleep(small_wait)
 		#turn on the clock
