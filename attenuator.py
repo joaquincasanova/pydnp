@@ -44,6 +44,7 @@ def digatt_write(data):
 	#turn off the clock
 	#turn on reset
 	GPIO.output(digatt_r, 1)
+	#two clock cycles
 	GPIO.output(digatt_c, 0)
 	time.sleep(small_wait)
 	#turn on the clock
@@ -58,7 +59,7 @@ def digatt_write(data):
 	for j in range(0,6): #there are always 6
 		#turn off the clock
 		#set the data bit
-		GPIO.output(digatt_s, data[j])
+		#GPIO.output(digatt_s, data[j])
 		GPIO.output(digatt_c, 0)		
 		time.sleep(small_wait)
 		#turn on the clock
@@ -67,7 +68,7 @@ def digatt_write(data):
 	#turn off the clock
 	#set serial to one
 	#latch on
-	GPIO.output(digatt_s, 0)
+	GPIO.output(digatt_s, 1)
 	GPIO.output(digatt_c, 0)	
 	GPIO.output(digatt_l, 1)
 	time.sleep(small_wait)

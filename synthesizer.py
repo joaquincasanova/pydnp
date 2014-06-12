@@ -18,7 +18,7 @@ global yig_c
 yig_c=11
 
 # yig synthesizer pins
-GPIO.setup(yig_l, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(yig_l, GPIO.IN)
 GPIO.setup(yig_d, GPIO.OUT,initial=0)
 GPIO.setup(yig_e, GPIO.OUT,initial=1)
 GPIO.setup(yig_c, GPIO.OUT,initial=0)
