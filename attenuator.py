@@ -23,14 +23,14 @@ GPIO.setup(digatt_r, GPIO.OUT)
 GPIO.setup(digatt_s, GPIO.OUT)
 
 def digatt_write(data):
-	small_wait=25e-6
+	small_wait=1e-6
 	#set everything on the digatt to zero, except reset and serial
 	GPIO.output(digatt_l, 0)
 	GPIO.output(digatt_c, 0)	
 	GPIO.output(digatt_r, 1)
 	GPIO.output(digatt_s, 1)
 	time.sleep(small_wait)
-	#turn on the clock
+	#turn on the clock 1
 	GPIO.output(digatt_c, 1)
 	time.sleep(small_wait)
 	#turn off the clock
@@ -38,22 +38,22 @@ def digatt_write(data):
 	GPIO.output(digatt_c, 0)
 	GPIO.output(digatt_r, 0)
 	time.sleep(small_wait)
-	#turn on the clock
+	#turn on the clock 2
 	GPIO.output(digatt_c, 1)
 	time.sleep(small_wait)
 	#turn off the clock
 	#turn on reset
-	GPIO.output(digatt_r, 1)
 	#two clock cycles
+	GPIO.output(digatt_r, 1)
 	GPIO.output(digatt_c, 0)
 	time.sleep(small_wait)
-	#turn on the clock
+	#turn on the clock 3
 	GPIO.output(digatt_c, 1)	
 	time.sleep(small_wait)
 	#turn off the clock
 	GPIO.output(digatt_c, 0)    
 	time.sleep(small_wait)
-	#turn on the clock
+	#turn on the clock 4
 	GPIO.output(digatt_c, 1)	
 	time.sleep(small_wait)
 	for j in range(0,6): #there are always 6
@@ -62,24 +62,29 @@ def digatt_write(data):
 		GPIO.output(digatt_s, data[j])
 		GPIO.output(digatt_c, 0)		
 		time.sleep(small_wait)
-		#turn on the clock
+		#turn on the clock 5 6 7 8 9 10
 		GPIO.output(digatt_c, 1)
 		time.sleep(small_wait)
 	#turn off the clock
 	#set serial to one
-	#latch on
-	GPIO.output(digatt_s, 1)
-	GPIO.output(digatt_c, 0)	
+	#latch on	
 	GPIO.output(digatt_l, 1)
+	GPIO.output(digatt_s, 1)
+	GPIO.output(digatt_c, 0)
 	time.sleep(small_wait)
-	#turn on the clock
+	#turn on the clock 11
 	GPIO.output(digatt_c, 1)
 	time.sleep(small_wait)
 	#turn off the clock
 	#latch off
-	GPIO.output(digatt_c, 0)	
-	GPIO.output(digatt_l, 0)
-	time.sleep(small_wait)
+	GPIO.output(digatt_l, 0)	
+	GPIO.output(digatt_c, 0)
+#	time.sleep(small_wait)
+	#turn on the clock 12
+#	GPIO.output(digatt_c, 1)
+#	time.sleep(small_wait)
+	#turn off the clock
+#	GPIO.output(digatt_c, 0)	
 	
 def attnround(number): # this will round us to the .5 MHz
 	#initialize setting to all ones and store the values of the attenuators
