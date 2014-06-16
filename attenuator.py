@@ -6,15 +6,20 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-
+#latch board 18, pin 12, grey
 global digatt_l
 digatt_l=12
+#clock board 23, pin 16, white
 global digatt_c
 digatt_c=16
+#reset board 24, pin 18, purple
 global digatt_r
 digatt_r=18
+#serial(data) board 25, pin 22, yellow
 global digatt_s
 digatt_s=22
+#gnd black
+#-5 orange
 
 # digital attenuator pins
 GPIO.setup(digatt_l, GPIO.OUT)
@@ -23,7 +28,7 @@ GPIO.setup(digatt_r, GPIO.OUT)
 GPIO.setup(digatt_s, GPIO.OUT)
 
 def digatt_write(data):
-	small_wait=1e-6
+	small_wait=25e-6
 	#set everything on the digatt to zero, except reset and serial
 	GPIO.output(digatt_l, 0)
 	GPIO.output(digatt_c, 0)	
@@ -79,14 +84,8 @@ def digatt_write(data):
 	#latch off
 	GPIO.output(digatt_l, 0)	
 	GPIO.output(digatt_c, 0)
-#	time.sleep(small_wait)
-	#turn on the clock 12
-#	GPIO.output(digatt_c, 1)
-#	time.sleep(small_wait)
-	#turn off the clock
-#	GPIO.output(digatt_c, 0)	
-	
-def attnround(number): # this will round us to the .5 MHz
+		
+def attnround(number): # this will round us to the attenuation "bins"
 	#initialize setting to all ones and store the values of the attenuators
 	thisatten = np.array([0.5,1,2,4,8,16])
 	setting = np.array([1,1,1,1,1,1])

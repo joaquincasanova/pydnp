@@ -7,15 +7,21 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-
+#lock board 4, pin 7, grey
 global yig_l
 yig_l=7
+#data board 22, pin 15, yellow
 global yig_d
 yig_d=15
+#enable board 27, pin 13, purple
 global yig_e
 yig_e=13
+#clock board 17, pin 11, white
 global yig_c
 yig_c=11
+#gnd black/green
+#+5 orange
+#+15 red
 
 # yig synthesizer pins
 GPIO.setup(yig_l, GPIO.IN)
